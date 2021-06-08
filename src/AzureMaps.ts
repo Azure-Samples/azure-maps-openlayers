@@ -130,6 +130,7 @@ export class AzureMaps extends ol.source.XYZ {
             }
         }
 
+        //@ts-ignore
         (<AzureMapsTileGrid>self.getTileGrid()).setMaxZoom(maxZoom);
 
         self._refresh();

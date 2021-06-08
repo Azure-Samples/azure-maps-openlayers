@@ -2092,6 +2092,7 @@ MIT License
                             var timeout = self._getTokenExpiry(token) - Constants.tokenRefreshClockSkew;
                             self._storeAccessToken(token);
                             clearTimeout(self.tokenTimeOutHandle); // Clear the previous refresh timeout in case it hadn't triggered yet.
+                            //@ts-ignore
                             self.tokenTimeOutHandle = setTimeout(self._triggerTokenFetch, timeout);
                             resolve();
                         }
@@ -2312,7 +2313,7 @@ MIT License
                         self._triggerTokenFetch();
                     }
                     else if (expiresIn <= 0) {
-                        // token renew failed and dont have a token.
+                        // token renew failed and don't have a token.
                         self._saveItem(Constants.storage.accessTokenKey, "");
                         throw new Error(Constants.errors.tokenExpired);
                     }
@@ -2365,7 +2366,10 @@ MIT License
                 sessionStorage.setItem(key, value);
                 return true;
             }
-            return false;
+            else {
+                AuthenticationManager.fallbackStorage[key] = value;
+                return true;
+            }
         };
         /**
          * Gets an item saved in storage
@@ -2378,7 +2382,9 @@ MIT License
             else if (this._supportsSessionStorage()) {
                 return sessionStorage.getItem(key);
             }
-            return null;
+            else {
+                return AuthenticationManager.fallbackStorage[key];
+            }
         };
         /**
          * Returns true if browser supports localStorage, false otherwise.
@@ -2430,13 +2436,6 @@ MIT License
                 return false;
             }
         };
-        /**
-         * Return the number of milliseconds since 1970/01/01
-         * @ignore
-         */
-        AuthenticationManager.prototype._getCurrentTime = function () {
-            return Math.round(new Date().getTime() / 1000.0);
-        };
         AuthenticationManager.prototype.signRequest = function (request) {
             var self = this;
             var opt = self.options;
@@ -2481,6 +2480,7 @@ MIT License
                 headers: new Headers(request.headers)
             });
         };
+        AuthenticationManager.fallbackStorage = {};
         AuthenticationManager.sessionId = Helpers.uuid();
         return AuthenticationManager;
     }());
@@ -2612,6 +2612,7 @@ MIT License
                     self._baseUrl = _trafficIncidentTileUrl;
                 }
             }
+            //@ts-ignore
             self.getTileGrid().setMaxZoom(maxZoom);
             self._refresh();
         };

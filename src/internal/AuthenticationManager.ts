@@ -12,9 +12,11 @@ import { Helpers } from './Helpers';
  */
 export class AuthenticationManager {
     private readonly options: AuthenticationOptions;
-    private tokenTimeOutHandle: NodeJS.Timer; // Anon auth token refresh timeout
+    private tokenTimeOutHandle: number; // Anon auth token refresh timeout
     private initPromise: Promise<void>;
     private _initialized = false;
+    
+    private static fallbackStorage: Record<string, string> = {};
 
     private static instance: AuthenticationManager;
     public static readonly sessionId = Helpers.uuid();
@@ -259,7 +261,7 @@ export class AuthenticationManager {
                     // trigger a new token fetch, but still return the current token
                     self._triggerTokenFetch();
                 } else if (expiresIn <= 0) {
-                    // token renew failed and dont have a token.
+                    // token renew failed and don't have a token.
                     self._saveItem(Constants.storage.accessTokenKey, "");
                     throw new Error(Constants.errors.tokenExpired);
                 }
@@ -285,6 +287,7 @@ export class AuthenticationManager {
 
                     self._storeAccessToken(token);
                     clearTimeout(self.tokenTimeOutHandle); // Clear the previous refresh timeout in case it hadn't triggered yet.
+                    //@ts-ignore
                     self.tokenTimeOutHandle = setTimeout(self._triggerTokenFetch, timeout);
 
                     resolve();
@@ -340,6 +343,9 @@ export class AuthenticationManager {
         } else if (this._supportsSessionStorage()) {
             sessionStorage.setItem(key, value);
             return true;
+        } else {
+            AuthenticationManager.fallbackStorage[key] = value;
+            return true;
         }
 
         return false;
@@ -354,7 +360,10 @@ export class AuthenticationManager {
             return localStorage.getItem(key);
         } else if (this._supportsSessionStorage()) {
             return sessionStorage.getItem(key);
+        } else {
+            return AuthenticationManager.fallbackStorage[key];
         }
+
 
         return null;
     }
@@ -384,7 +393,7 @@ export class AuthenticationManager {
      */
     private _supportsSessionStorage(): boolean {
         try {
-            const wss = window.sessionStorage;            
+            const wss = window.sessionStorage;
             const testStorageKey = Constants.storage.testStorageKey;
             if (!wss) { return false; } // Test availability
             wss.setItem(testStorageKey, "A"); // Try write
@@ -396,15 +405,7 @@ export class AuthenticationManager {
             return false;
         }
     }
-
-    /**
-     * Return the number of milliseconds since 1970/01/01
-     * @ignore
-     */
-    private _getCurrentTime(): number {
-        return Math.round(new Date().getTime() / 1000.0);
-    }
-
+    
     public signRequest(request: RequestParameters): RequestParameters {
         const self = this;
         const opt = self.options;
@@ -426,7 +427,7 @@ export class AuthenticationManager {
                 headers[h.AUTHORIZATION] = `${h.AUTHORIZATION_SCHEME} ${token}`;
                 break;
             case AuthenticationType.subscriptionKey:
-                if ("url" in request) {                    
+                if ("url" in request) {                   
                     var prefix = '?';
                     
                     if (request.url.indexOf("?") !== -1) {
