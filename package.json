@@ -1,6 +1,6 @@
 {
   "name": "azure-maps-openlayers",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A OpenLayers plugin that makes it easy to overlay tile layers from the Azure Maps tile services.",
   "keywords": [
     "azure",
