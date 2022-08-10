@@ -1,4 +1,6 @@
 /*
+azure-maps-openlayers Version: 0.0.3
+
 MIT License
 
     Copyright (c) Microsoft Corporation.
