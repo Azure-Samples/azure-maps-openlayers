@@ -43,20 +43,6 @@ A [OpenLayers](https://openlayers.org/) plugin that makes it easy to overlay til
 
 Currently supports raster (i.e PNG) tiles, support for vector tiles is planned.
 
-**Samples**
-
-[Render Azure Maps in OpenLayers](https://azuremapscodesamples.azurewebsites.net/index.html?sample=Render%20Azure%20Maps%20in%20OpenLayers)
-<br/>[<img src="https://samples.azuremaps.com/third-party-map-controls/render-azure-maps-in-openlayers/screenshot.jpg" height="200px">](https://azuremapscodesamples.azurewebsites.net/index.html?sample=Render%20Azure%20Maps%20in%20OpenLayers)
-
-[Azure Maps OpenLayers satellite labels](https://azuremapscodesamples.azurewebsites.net/index.html?sample=Azure%20Maps%20OpenLayers%20satellite%20labels)
-<br/>[<img src="https://samples.azuremaps.com/third-party-map-controls/azure-maps-openlayers-satellite-labels/screenshot.jpg" height="200px">](https://azuremapscodesamples.azurewebsites.net/index.html?sample=Azure%20Maps%20OpenLayers%20satellite%20labels)
-
-[Azure Maps OpenLayers options](https://azuremapscodesamples.azurewebsites.net/index.html?sample=Azure%20Maps%20OpenLayers%20options)
-<br/>[<img src="https://samples.azuremaps.com/third-party-map-controls/azure-maps-openlayers-options/screenshot.jpg" height="200px">](https://azuremapscodesamples.azurewebsites.net/index.html?sample=Azure%20Maps%20OpenLayers%20options)
-
-[Simple Azure Maps layer picker for OpenLayers](https://azuremapscodesamples.azurewebsites.net/index.html?sample=Simple%20Azure%20Maps%20layer%20picker%20for%20OpenLayers)
-<br/>[<img src="https://samples.azuremaps.com/third-party-map-controls/simple-azure-maps-layer-picker-for-openlayers/screenshot.jpg" height="200px">](https://azuremapscodesamples.azurewebsites.net/index.html?sample=Simple%20Azure%20Maps%20layer%20picker%20for%20OpenLayers)
-
 ## Getting started
 
 Download the project and copy the `azure-maps-openlayers` JavaScript file from the `dist` folder into your project.
