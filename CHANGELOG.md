@@ -1,5 +1,21 @@
 ## azure-maps-openlayers Changelog
 
+<a name="0.0.4"></a>
+# 0.0.2 (2024-06-11)
+
+- Modified timer class to use `setTimeout` in worker as originaly solution was causing high memory usage.
+- Updated packages.
+
+<a name="0.0.3"></a>
+# 0.0.3
+
+- Update packages
+
+<a name="0.0.2"></a>
+# 0.0.2 
+
+- Update packages
+  
 <a name="0.0.1"></a>
 # 0.0.1 (2021-02-10)
 
